@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archived Cards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card {
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            background-color: #d0d0d0;
+        }
+
+        .disarchive-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .disarchive-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Archived Cards</h1>
+        <div class="archive" id="archive">
+            <!-- Archived cards will appear here -->
+        </div>
+    </div>
+    <a class="nav-link" href="{% url 'index'  %}">View All Workers</a>
+    <script>
+        window.onload = function() {
+            // Retrieve the archived cards from local storage
+            const archivedCards = JSON.parse(localStorage.getItem('archivedCards')) || [];
+
+            // Display the archived cards in archive.html
+            const archiveContainer = document.getElementById('archive');
+            archivedCards.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                cardDiv.innerHTML = `
+                    <h2>${card.title}</h2>
+                    <p>${card.content}</p>
+                    <button class="disarchive-btn" onclick="disarchiveCard(this, '${card.title}', '${card.content}', '${card.originalPosition}')">Disarchive</button>
+                `;
+                archiveContainer.appendChild(cardDiv);
+            });
+        };
+
+        // Function to disarchive a card
+        function disarchiveCard(button, title, content, originalPosition) {
+            // Remove the card from the DOM
+            const cardDiv = button.parentElement;
+            cardDiv.remove();
+
+            // Remove the card from the archived cards in local storage
+            let archivedCards = JSON.parse(localStorage.getItem('archivedCards')) || [];
+            archivedCards = archivedCards.filter(card => card.title !== title || card.content !== content);
+            localStorage.setItem('archivedCards', JSON.stringify(archivedCards));
+
+            // Move the disarchived card back to its original position in index.html page
+            const indexContainer = window.opener.document.getElementById('main-content').querySelector('.container');
+            const cardDivCopy = cardDiv.cloneNode(true);
+            const position = parseInt(originalPosition);
+            const referenceNode = indexContainer.children[position];
+            indexContainer.insertBefore(cardDivCopy, referenceNode);
+
+            // Refresh the page to reflect the changes
+            window.opener.location.reload();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidebar Example</title>
+<style>
+/* Basic styling for the sidebar */
+.sidebar {
+  height: 100%;
+  width: 250px; /* Adjust the width as needed */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(70, 70, 233);
+  padding-top: 20px;
+  transition: left 0.3s ease; /* Add transition for smoother animation */
+  border-radius: 50px;
+}
+
+/* Style for the links in the sidebar */
+.sidebar a {
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+  color:white;
+}
+
+/* Style for the active link */
+.sidebar a.active {
+  background-color: #ddd;
+}
+
+/* Style for the content area */
+.content {
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Add transition for smoother animation */
+}
+
+/* Some example content */
+h1 {
+  margin-top: 0;
+}
+
+/* Styling for the navbar */
+.navbar {
+  width: 100%;
+  background-color: whitesmoke;
+  color: #fff;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styling for the navigation items */
+.navbar .nav-items {
+  margin-right: auto; /* Push navigation items to the left */
+}
+
+/* Styling for the signup button */
+.signup-btn {
+  background-color: rgb(70, 70, 233);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  body {
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+  }
+  .sidebar {
+    width: calc(100% - 30px); /* Set width for sidebar on smaller screens */
+    left: -100%; /* Initially hide the sidebar off-screen */
+  }
+  .content {
+    margin-left: 0; /* Reset margin for main content */
+  }
+  .sidebar.open {
+    left: 0; /* Move sidebar to show on screen */
+  }
+  .content.expand {
+    margin-left: 0; /* Keep main content to the right of sidebar */
+  }
+  .toggle-btn {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 9999; /* Ensure the button is above other content */
+    border: none;
+  }
+  .toggle-btn:focus {
+    outline: none; /* Remove outline on focus */
+  }
+  .toggle-icon {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: transform 0.3s ease; /* Add transition for smoother animation */
+  }
+  .toggle-icon.open {
+    transform: rotate(45deg); /* Rotate icon to form 'X' shape when sidebar is open */
+  }
+  .navbar {
+    flex-direction: row-reverse; /* Align items in reverse order */
+  }
+  .signup-btn {
+    margin-right: 20px; /* Position signup button in the right corner */
+  }
+  .navbar .nav-items {
+    margin-left: 20px; /* Add left margin for spacing */
+  }
+}
+
+/* Additional styling for non-responsive layout */
+@media screen and (min-width: 769px) {
+  .sidebar {
+    left: 0; /* Show sidebar by default on non-responsive layout */
+  }
+  .content {
+    margin-left: 250px; /* Keep main content to the right of sidebar */
+  }
+}
+</style>
+{% load static %}
+</head>
+<body>
+
+<div class="navbar">
+  <div class="nav-items">
+    
+  </div>
+  <button class="signup-btn" >Sign Up</button>
+</div>
+
+<div class="sidebar" id="sidebar"><a href="#" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
+    <img src="{% static 'images/relationship.jpg' %}" class="d-block w-100" alt="..." style="height: 80px;width: 80px;">CRM
+</a>
+
+
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Dashboard</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Contacts</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Accounts</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Leads</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Opportunities</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Archives</a>
+</div>
+
+<div class="content" id="content">
+  <button class="toggle-btn" onclick="toggleSidebar()">
+    <span class="toggle-icon"></span>
+    <span class="toggle-icon"></span>
+    <span class="toggle-icon"></span>
+  </button>
+  <h1>Welcome to My Website!</h1>
+  <p>This is some example content. You can add more here.</p>
+</div>
+
+<script>
+function toggleSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  var content = document.getElementById("content");
+  sidebar.classList.toggle("open");
+  content.classList.toggle("expand");
+}
+</script>
+
+</body>
+</html>
+
+
