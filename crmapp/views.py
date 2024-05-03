@@ -11,5 +11,9 @@ def archive(request):
     # Your logic to retrieve archived cards data goes here
     return render(request, 'archive.html')
 
-def archive_html(request):
-    return render(request, 'archive.html')
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+
+

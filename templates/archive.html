@@ -15,17 +15,38 @@
 
 <style>
     /* Styling for the archived cards */
+   /* Styling for the archived cards */
 .archivedCard {
-  background-color: #f0f0f0; /* Light gray background */
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding around the card content */
-  margin-bottom: 10px; /* Spacing between cards */
+    flex: 0 0 calc(25% - 20px); /* Adjust based on your styling and spacing */
+  margin: 10px; /* Adjust margin as needed */
+  padding: 10px; /* Add padding to give some space inside the card */
+  background-color: #f0f0f0; /* Example background color */
+  border-radius: 8px; /* Rounded corners for the cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example box shadow */
 }
 
-/* Styling for the disarchive button */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute space between cards */
+}
+@media screen and (max-width: 768px) {
+  .card-container .archivedCard {
+    flex: 0 0 100%; 
+    margin-bottom: 20px; /* Two cards per row on smaller screens */
+  }
+  .card-container .archivedCard  h3 {
+    max-width: 100%; /* Adjust the maximum width of the h3 tag */
+    overflow: hidden; /* Hide any overflow text */
+    white-space: nowrap; /* Prevent wrapping of text */
+    text-overflow: ellipsis;
+    font-size: initial; /* Show ellipsis (...) for overflow text */
+}
+}
+
+/* Styling for the disarchive button */ 
 .disarchive-btn {
-  background-color: rgb(70, 70, 233); /* Blue background */
+  background-color: rgb(215, 177, 190);/* Blue background */
   color: white; /* White text color */
   border: none; /* No border */
   border-radius: 5px; /* Rounded corners */
@@ -46,7 +67,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgb(70, 70, 233);
+  background-color: rgb(216, 188, 216);
   padding-top: 20px;
   transition: left 0.3s ease; /* Add transition for smoother animation */
   border-radius: 50px;
@@ -96,7 +117,7 @@ h1 {
 
 /* Styling for the signup button */
 .signup-btn {
-  background-color: rgb(70, 70, 233);
+  background-color: palevioletred;
   color: white;
   border: none;
   border-radius: 10px;
@@ -128,7 +149,7 @@ h1 {
     position: fixed;
     top: 20px;
     right: 20px; /* Adjust position to the right */
-    background-color: white;
+    background-color: pink;
     color: #333;
     padding: 10px;
     cursor: pointer;
@@ -175,10 +196,10 @@ h1 {
 
 
 
-h1:not(.no-bullet)::before, h2:not(.no-bullet)::before, h3:not(.no-bullet)::before, h4:not(.no-bullet)::before, h5:not(.no-bullet)::before, h6:not(.no-bullet)::before {
+ h2:not(.no-bullet)::before, h3:not(.no-bullet)::before, h4:not(.no-bullet)::before, h5:not(.no-bullet)::before, h6:not(.no-bullet)::before {
   content: "\25A0"; /* Unicode character for square */
   margin-right: 0.5em; /* Adjust the spacing between the bullet and the text */
-  color: rgb(70, 70, 233); /* Set the color of the bullet */
+  color:rgb(215, 177, 190); /* Set the color of the bullet */
 }
 .sidebar {
   z-index: 2; /* Ensure sidebar is above cards */
@@ -203,83 +224,100 @@ h1:not(.no-bullet)::before, h2:not(.no-bullet)::before, h3:not(.no-bullet)::befo
   </button>
 </div>
 
-<div class="sidebar" id="sidebar"><a href="#" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
+<div class="sidebar" id="sidebar"><a href="{%  url 'index' %}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
     <img src="{% static 'images/relationship.jpg' %}"  alt="..." style="height: 80px;width: 80px;">CRM
 </a>
 
 
-<a href="{% url 'index' %}" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Dashboard</a>
+<a href="{% url 'dashboard' %}" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Dashboard</a>
   <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Contacts</a>
   <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Accounts</a>
   <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Leads</a>
   <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Opportunities</a>
   <a href="{% url 'archive' %}" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Archives</a>
 </div>
-
+<center>
 <div class="content" id="content">
-
-    <h1>Archived Cards</h1>
-    <div id="archiveContainer"></div>
-
-  
-</div>
+    <h1 style="margin-top: 100px;margin-bottom: 100px;color: purple;font-family:Lucida Handwriting ;">Archived Cards</h1>
+    <div id="archiveContainer" class="card-container"></div>
+  </div>
  
 
 
-
+</center>
 
 <script>
-    
-function toggleSidebar() {
-  var sidebar = document.getElementById("sidebar");
-  var content = document.getElementById("content");
-  sidebar.classList.toggle("open");
-  content.classList.toggle("expand");
+    function toggleSidebar() {
+    var sidebar = document.getElementById("sidebar");
+    var content = document.getElementById("content");
+    sidebar.classList.toggle("open");
+    content.classList.toggle("expand");
 }
-    document.addEventListener("DOMContentLoaded", function() {
-        // Retrieve archived cards from local storage
-        var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+// Retrieve archived cards from local storage
+var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
 
-        // Display archived cards in the archive page
-        var archiveContainer = document.getElementById("archiveContainer");
-        archivedCards.forEach(function(card) {
-            var cardElement = document.createElement("div");
-            cardElement.textContent = card.content;
-            cardElement.classList.add("archivedCard");
-            cardElement.dataset.id = card.id;
+document.addEventListener("DOMContentLoaded", function() {
+    // Display archived cards in the archive page
+    var archiveContainer = document.getElementById("archiveContainer");
+    archivedCards.forEach(function(card) {
+        var cardElement = document.createElement("div");
+        cardElement.classList.add("card"); // Apply card styling
+        cardElement.classList.add("archivedCard"); // Apply archived card styling
+        cardElement.dataset.id = card.id;
 
-            // Create a disarchive button
-            var disarchiveBtn = document.createElement("button");
-            disarchiveBtn.textContent = "Disarchive";
-            disarchiveBtn.classList.add("disarchive-btn");
-            disarchiveBtn.addEventListener("click", disarchive);
+        // Create card title element
+        var cardTitle = document.createElement("h3");
+        cardTitle.textContent = card.title; // Set the title text content
 
-            // Append the disarchive button to the card
-            cardElement.appendChild(disarchiveBtn);
+        // Create card body element
+        var cardBody = document.createElement("p");
+        cardBody.textContent = card.body; // Set the body text content
+        
 
-            archiveContainer.appendChild(cardElement);
-        });
+        var icon = document.createElement("i");
+        icon.classList.add("fas", "fa-phone"); // Font Awesome call icon
+        icon.style.marginTop = "10px"; // Adjus
 
-        function disarchive(event) {
-            var cardId = event.currentTarget.parentNode.dataset.id;
-            var cardContent = event.currentTarget.parentNode.textContent.trim();
+        // Create a disarchive button
+        var disarchiveBtn = document.createElement("button");
+        disarchiveBtn.textContent = "Disarchive";
+        disarchiveBtn.classList.add("disarchive-btn");
+        disarchiveBtn.addEventListener("click", disarchive);
 
-            // Remove the card from archivedCards in local storage
-            archivedCards = archivedCards.filter(function(card) {
-                return card.id !== cardId;
-            });
-            localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
-
-            // Remove the card from the archive display
-            event.currentTarget.parentNode.remove();
-
-            // Show the card again in the dashboard
-            var dashboardCard = document.getElementById(cardId);
-            if (dashboardCard) {
-                dashboardCard.style.display = "block";
-            }
-        }
+        // Append elements to card
+        cardElement.appendChild(cardTitle);
+        cardElement.appendChild(icon);
+        cardElement.appendChild(cardBody);
+        
+        cardElement.appendChild(disarchiveBtn);
+        
+        archiveContainer.appendChild(cardElement);
     });
+});
+
+function disarchive(event) {
+    var cardId = event.currentTarget.parentNode.dataset.id;
+    var cardContent = event.currentTarget.parentNode.textContent.trim();
+
+    // Retrieve archived cards from local storage
+    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+
+    // Remove the card from archivedCards in local storage
+    archivedCards = archivedCards.filter(function(card) {
+        return card.id !== cardId;
+    });
+    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+
+    // Remove the card from the archive display
+    event.currentTarget.parentNode.remove();
+
+    // Show the card again in the dashboard
+    var dashboardCard = document.getElementById(cardId);
+    if (dashboardCard) {
+        dashboardCard.style.display = "block";
+    }
+}
+
 </script>
 
 </body>

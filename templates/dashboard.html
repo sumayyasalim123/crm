@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidebar Example</title>
+{% load static %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* Basic styling for the sidebar */
+.sidebar {
+  height: 100%;
+  width: 250px; /* Adjust the width as needed */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color:rgb(216, 188, 216);
+  padding-top: 20px;
+  transition: left 0.3s ease; /* Add transition for smoother animation */
+  border-radius: 50px;
+}
+
+/* Style for the links in the sidebar */
+.sidebar a {
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+  color: white;
+}
+
+/* Style for the active link */
+.sidebar a.active {
+  background-color: #ddd;
+}
+
+/* Style for the content area */
+.content {
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Add transition for smoother animation */
+
+}
+
+/* Some example content */
+h1 {
+  margin-top: 0;
+}
+
+/* Styling for the navbar */
+.navbar {
+  width: 100%;
+  background-color: whitesmoke;
+  color: #fff;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styling for the navigation items */
+.navbar .nav-items {
+  margin-right: auto; /* Push navigation items to the left */
+}
+
+/* Styling for the signup button */
+.signup-btn {
+  background-color: palevioletred;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  body {
+   
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+  }
+  .sidebar {
+    width: calc(100% - 84px); /* Set width for sidebar on smaller screens */
+    left: -100%; /* Initially hide the sidebar off-screen */
+  }
+  .content {
+    margin-left: 0; /* Reset margin for main content */
+  }
+  .sidebar.open {
+    left: 0; /* Move sidebar to show on screen */
+  }
+  .content.expand {
+    margin-left: 0; /* Keep main content to the right of sidebar */
+  }
+  .toggle-btn {
+    margin-right: -5px;
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Adjust position to the right */
+    background-color:pink;
+    color: #333;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 9999; /* Ensure the button is above other content */
+    border: none;
+  }
+  .toggle-btn:focus {
+    outline: none; /* Remove outline on focus */
+  }
+  .toggle-icon {
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: transform 0.3s ease; /* Add transition for smoother animation */
+  }
+  .toggle-icon.open {
+    transform: rotate(45deg); /* Rotate icon to form 'X' shape when sidebar is open */
+  }
+  .navbar {
+    flex-direction: row-reverse; /* Align items in reverse order */
+  }
+  .signup-btn {
+    margin-right: 20px; 
+    margin-left: -16px;/* Position signup button in the right corner */
+  }
+  .navbar .nav-items {
+    margin-left: 20px; /* Add left margin for spacing */
+  }
+}
+
+/* Additional styling for non-responsive layout */
+@media screen and (min-width: 769px) {
+  .sidebar {
+    left: 0; /* Show sidebar by default on non-responsive layout */
+  }
+  .content {
+    margin-left: 250px;
+
+  
+     /* Keep main content to the right of sidebar */
+  }
+  .toggle-btn {display: none;}
+}
+.square-card {
+  display: flex;
+  justify-content: space-between; /* Ensure equal spacing between columns */
+  flex-wrap: wrap;
+   /* Allow columns to wrap to the next line on smaller screens */
+}
+
+.card {
+  flex-basis: calc(33.33% - 20px); /* Adjust the width of cards */
+
+  margin-bottom: 20px; /* Add some space between cards */
+  padding: 20px; /* Increase padding for better spacing */
+  box-sizing: border-box;
+  
+}
+
+.column {
+  flex-basis: calc(33.33% - 20px); /* Adjust the width of the column */
+  display: flex;
+  flex-direction: column; /* Arrange cards vertically */
+  justify-content: flex-start; /* Align cards at the start of the column */
+}
+
+@media screen and (max-width: 768px) {
+  .square-card {
+    margin-left: -18px;
+    flex-direction: column; /* Display cards vertically on smaller screens */
+    height: auto; /* Remove fixed height */
+  }
+.popup{display: none;}
+  .card {
+    flex-basis: calc(45% - 20px); /* Adjust width of cards */
+    margin-bottom: 10px; /* Reduce space between cards */
+    padding: 10px; /* Adjust padding for smaller screens */
+    box-sizing: border-box; /* Include padding in the total width */
+  }
+
+  .main-content {
+    padding: 0 20px; /* Adjust padding to fit cards better on smaller screens */
+  }
+
+}
+
+ h2:not(.no-bullet)::before, h3:not(.no-bullet)::before, h4:not(.no-bullet)::before, h5:not(.no-bullet)::before, h6:not(.no-bullet)::before {
+  content: "\25A0"; /* Unicode character for square */
+  margin-right: 0.5em; /* Adjust the spacing between the bullet and the text */
+  color:rgb(215, 177, 190); /* Set the color of the bullet */
+}
+.sidebar {
+  z-index: 2; /* Ensure sidebar is above cards */
+  position: fixed; /* Keep sidebar fixed when scrolling */
+}
+
+.content {
+  z-index: 1; /* Ensure cards are below sidebar */
+  position: relative; /* Set relative positioning for stacking context */
+}
+
+/* Example CSS changes for responsiveness */
+@media screen and (max-width: 768px) {
+  /* Adjust card size and margins for smaller screens */
+  .card {
+    flex-basis: calc(45% - 20px); /* Adjust width of cards */
+    margin-bottom: 10px; /* Reduce space between cards */
+    padding: 10px; /* Adjust padding for smaller screens */
+    box-sizing: border-box; /* Include padding in the total width */
+  }
+}
+
+/* Additional CSS changes for other screen sizes if needed */
+.popup{display: none;}
+/* Define a CSS class to hide archived cards */
+.archived-card {
+    display: none;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute space between cards */
+}
+
+.card-container .card {
+  flex: 0 0 calc(25% - 20px); /* Adjust based on your styling and spacing */
+  margin: 10px; /* Adjust margin as needed */
+  padding: 10px; /* Add padding to give some space inside the card */
+  background-color: #f0f0f0; /* Example background color */
+  border-radius: 8px; /* Rounded corners for the cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   /* Example box shadow */
+}
+
+.card-container .card:hover {
+    transform: translateY(-5px);}
+
+@media screen and (max-width: 768px) {
+  .card-container .card {
+    flex: 0 0 100%; /* One card per row on smaller screens */
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 20px;
+
+     /* Add some spacing between cards */
+}
+.card-container{
+  display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 207px;
+    position: relative;
+}
+
+.card-container .card h3 {
+    max-width: 100%; /* Reset the maximum width for h3 tag */
+    font-size: initial; /* Reset font size to default */
+}
+
+
+
+}
+.chart-container {
+      width: 1000px; /* Set the desired width */
+      height: 850px;margin-left: 100px; /* Set the desired height */
+    }
+@media screen and (max-width: 768px) {
+    .chart-container {
+        width: 300px;
+        height: 400px;
+        margin-left: 0%;
+    }
+}
+.container-first {
+  margin-bottom: 100px;
+  text-align: center; /* Center the cards horizontally */
+  margin-top: 50px;
+}
+
+.card- {
+  width: 200px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block; /* Display cards horizontally */
+  margin: 0 10px; /* Add some margin between cards */
+  height: auto; /* Set height to auto to allow variable heights */
+}
+
+.card- i {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.card- h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card- p {
+  font-size: 18px;
+  color: #333;
+}
+
+</style>
+{% load static %}
+</head>
+<body>
+
+<div class="navbar">
+  <div class="nav-items">
+
+  </div>
+  <button class="signup-btn" >Sign Up</button>
+  <button class="toggle-btn" onclick="toggleSidebar()">
+    <span class="toggle-icon"></span>
+    <span class="toggle-icon"></span>
+    <span class="toggle-icon"></span>
+  </button>
+</div>
+
+<div class="sidebar" id="sidebar"><a href="{% url 'index' %}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
+    <img src="{% static 'images/relationship.jpg' %}"  alt="..." style="height: 80px;width: 80px;">CRM
+</a>
+
+
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Dashboard</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Contacts</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Accounts</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Leads</a>
+  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Opportunities</a>
+  <a href="{% url 'archive' %}" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Archives</a>
+</div>
+<center>
+<div class="content" id="content">
+  <h1 style="font-family: Lucida Handwriting;margin-top: 100px;color: purple;margin-left: -14px;">Over View</h1>
+  <div class=" first-container" >
+    <div class="card-" style="  background-color: rgb(238, 216, 220);margin-top: 100px;margin-bottom: 100px;">
+     
+        <i class="fas fa-user"></i>
+        <h3>Total Contacts</h3>
+        <p>1000</p>
+    </div>
+    <div class="card-" style="  background-color: rgb(236, 208, 236);margin-bottom: 100px;">
+        <i class="fas fa-building" ></i>
+        <h6>Total Accounts</h6>
+        <p>500</p>
+    </div>
+    <div class="card-" style="background-color: rgb(242, 227, 208);">
+        <i class="fas fa-star"></i>
+        <h3>Total Leads</h3>
+        <p>300</p>
+    </div>
+    <div class="card-" style="background-color: rgb(215, 207, 204);margin-top: 100px;margin-bottom: 100px;">
+        <i class="fas fa-chart-line" style="font-size: 40px;"></i>
+        <h6>Total Opportunities</h6>
+        <p>150</p>
+    </div>
+</div>
+
+<h1 style="font-family:Lucida Handwriting ;margin-top: 100PX;margin-bottom: 100PX;color: purple;">Outbound Calls </h1>
+<div id="archivePopup" class="popup" ondrop="dropTouch(event)" ondragover="allowDrop(event)">
+  <i class="fas fa-archive" style="font-size: 48px;"></i>
+</div>
+<div class="card-container">
+<div id="card1" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Stephen Jeorge</h3>
+<p> <i class="fas fa-phone"></i>  <span style="display: inline;">44 <span style="color: red;">(-4%)</span></span> </p></div>
+<div id="card2" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Alexander</h3>
+<p> <i class="fas fa-phone"></i>  <span style="display: inline;">32 <span style="color: red;">(-5%)</span></span> </p></div>
+<div id="card3" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Jhony</h3>
+<p><i class="fas fa-phone"></i>  <span style="display: inline;">23 <span style="color: red;">(-6%)</span></span></p></div>
+<div id="card4" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Ann Mary</h3>
+<p><i class="fas fa-phone"></i>  <span style="display: inline;">55 <span style="color: red;">(-8%)</span></span></p></div>
+<div id="card5" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>George</h3>
+<p><i class="fas fa-phone"></i>  <span style="display: inline;">67 <span style="color: red;">(-2%)</span></span></p></div>
+<div id="card6" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Siya</h3>
+  <p><i class="fas fa-phone"></i>  <span style="display: inline;">33 <span style="color: red;">(-3%)</span></span></p></div>
+  <div id="card7" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Emma Keylin</h3>
+    <p><i class="fas fa-phone"></i>  <span style="display: inline;">12 <span style="color: red;">(-3%)</span></span></p></div>
+    <div id="card8" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Abhinand Anand</h3>
+      <p><i class="fas fa-phone"></i>  <span style="display: inline;">73 <span style="color: red;">(-5%)</span></span></p></div>
+      <div id="card9" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Roslin George</h3>
+        <p><i class="fas fa-phone"></i>  <span style="display: inline;">45 <span style="color: red;">(-7%)</span></span></p></div>
+        <div id="card10" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Salman Khan</h3>
+          <p><i class="fas fa-phone"></i>  <span style="display: inline;">23 <span style="color: red;">(-9%)</span></span></p></div>
+          <div id="card11" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Sharukh Khan</h3>
+            <p><i class="fas fa-phone"></i>  <span style="display: inline;">56 <span style="color: red;">(-1%)</span></span></p></div>
+            <div id="card12" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Amidabh Bachan</h3>
+              <p><i class="fas fa-phone"></i>  <span style="display: inline;">39 <span style="color: red;">(-5%)</span></span></p></div>
+</div>
+  <h1 class="no-bullet" style="margin-top: 100px;font-family:Lucida Handwriting;margin-top: 100PX;margin-bottom: 100px;color: purple;">Outbound Calls and Contracts</h1>
+
+  <div class="main-content">
+    <div class="square-card">
+      <!-- First column -->
+      <div class="card" style="border: 0cap;">
+        <h2 style="font-family: Lucida Handwriting;">Outbound calls</h2>
+        <p> 2,794</p>
+        <p style="color: red;"> 32%</p>
+        <canvas id="chart1"></canvas>
+      </div>
+      <!-- Second column -->
+      <div class="card"  style="border: 0cap;">
+        <h2 style="font-family: Lucida Handwriting;">Demos</h2>
+        <p> 52</p>
+        <p style="color: red;"> 43%</p>
+        <canvas id="chart2"></canvas>
+      </div>
+      <!-- Third column -->
+      <div class="column">
+        <div class="card" style="background-color: rgb(193, 223, 223);border-radius: 30px;height: 50px;"> 
+          <h6 >Contracts closed</h6>
+          <p><span style="display: inline;font-weight: bolder;font-size: 20px;">22 <span style="color: red;">(-29%)</span></span></p>
+
+
+        </div>
+        <div class="card" style="background-color: rgb(233, 233, 210);border-radius: 30px;"> 
+          <h6>Avg Contractvalue</h6>
+          <p><span style="display: inline;font-weight: bolder;font-size: 20px;">44,970 <span style="color: red;">(-4%)</span></span></p>
+        </div>
+        <div class="card" style="background-color: rgb(219, 197, 180);border-radius: 30px;"> 
+          <h6>Call/Contract Ratio</h6>
+          <p><span style="display: inline;font-weight: bolder;font-size: 20px;">127 <span style="color: red;">(-2%)</span></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<h1 style="color: purple;font-family:Lucida Handwriting ; margin-top: 100px;margin-bottom:100px ;">Contracts in a Year</h1>
+<div class="chart-container">
+  <!-- Chart canvas -->
+  <canvas id="myChart"></canvas>
+</div>
+
+</div>
+ 
+</center>
+
+<script>
+
+
+function toggleSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  var content = document.getElementById("content");
+  sidebar.classList.toggle("open");
+  content.classList.toggle("expand");
+}
+ // JavaScript to render pie charts
+ document.addEventListener('DOMContentLoaded', function () {
+    var ctx1 = document.getElementById('chart1').getContext('2d');
+    var ctx2 = document.getElementById('chart2').getContext('2d');
+
+    var data1 = {
+      datasets: [{
+        data: [32, 68], // Assuming 32% and 68%
+        backgroundColor: [
+          'rgb(236, 208, 236)', // Light blue
+          'rgb(242, 227, 208)'    // Dark blue
+        ],
+        borderColor: [
+          'rgb(236, 208, 236)', // Light blue
+          'rgb(242, 227, 208)'    // Dark blue
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    var data2 = {
+      datasets: [{
+        data: [43, 57], // Assuming 43% and 57%
+        backgroundColor: [
+          'rgb(236, 208, 236)', // Light blue
+          'rgb(242, 227, 208)'    // Dark blue
+        ],
+        borderColor: [
+          'rgb(236, 208, 236)', // Light blue
+          'rgb(242, 227, 208)'    // Dark blue
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    var options = {
+      // Add options if needed
+      legend: {
+        display: false // Hide the legend
+      }
+    };
+
+    new Chart(ctx1, {
+      type: 'pie',
+      data: data1,
+      options: options
+    });
+
+    new Chart(ctx2, {
+      type: 'pie',
+      data: data2,
+      options: options
+    });
+  });
+ // Function to handle drag start event
+function handleDragStart(event) {
+    // Show the archive icon when dragging starts
+    var archivePopup = document.getElementById("archivePopup");
+    archivePopup.style.display = "block";
+
+    event.dataTransfer.setData('text/plain', event.target.id);
+}
+
+// Function to handle touch start event
+function handleTouchStart(event) {
+    // Prevent default touch behavior to avoid issues with touch events
+    event.preventDefault();
+
+    // Show the archive icon when touch starts
+    var archivePopup = document.getElementById("archivePopup");
+    archivePopup.style.display = "block";
+
+    // Get the touch target
+    let touch = event.touches[0];
+
+    // Store initial touch coordinates and card position
+    event.target.setAttribute('data-touchstart-x', touch.clientX);
+    event.target.setAttribute('data-touchstart-y', touch.clientY);
+    event.target.setAttribute('data-card-x', event.target.offsetLeft);
+    event.target.setAttribute('data-card-y', event.target.offsetTop);
+}
+
+// Function to handle touch move event
+function handleTouchMove(event) {
+    // Prevent default touch behavior to avoid issues with touch events
+    event.preventDefault();
+    
+    // Get the touch target
+    let touch = event.touches[0];
+    
+    // Calculate distance moved
+    let deltaX = touch.clientX - parseInt(event.target.getAttribute('data-touchstart-x'));
+    let deltaY = touch.clientY - parseInt(event.target.getAttribute('data-touchstart-y'));
+    
+    // Calculate new card position
+    let newCardX = parseInt(event.target.getAttribute('data-card-x')) + deltaX;
+    let newCardY = parseInt(event.target.getAttribute('data-card-y')) + deltaY;
+    
+    // Apply translation to the card's position
+    event.target.style.transform = `translate(${newCardX}px, ${newCardY}px)`;
+
+    
+    
+    // Adjust opacity if necessary
+    event.target.style.opacity = '0.8'; 
+}
+// Function to handle touch end event
+function handleTouchEnd(event) {
+    // Reset card position after touchend
+    event.target.style.transform = 'translate(0px, 0px)';
+
+    // Check if the touched element has an ID attribute
+    var data = event.target.id;
+    if (!data) {
+        console.error("Element being touched does not have an ID attribute.");
+        return;
+    }
+
+    // Check if the touch ended within the boundaries of the archivePopup
+    var touchX = event.changedTouches[0].clientX;
+    var touchY = event.changedTouches[0].clientY;
+
+    var archivePopup = document.getElementById("archivePopup");
+
+    var rect = archivePopup.getBoundingClientRect();
+    if (touchX >= rect.left && touchX <= rect.right && touchY >= rect.top && touchY <= rect.bottom) {
+        // If touch ended within the archivePopup, archive the card
+
+        var draggedElement = document.getElementById(data);
+        var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+        archivedCards.push({
+            id: draggedElement.id,
+            title: draggedElement.querySelector('h3').textContent,
+            body: draggedElement.querySelector('p').textContent
+        });
+        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+        draggedElement.classList.add('archivedCard');
+
+        // Hide the card's contents
+        draggedElement.querySelector('h3').textContent = '';
+        draggedElement.querySelector('p').textContent = '';
+        // Remove the card from the dashboard
+        draggedElement.remove();
+    }
+
+    // Hide the archive icon after the touch ends only if the card was not dropped onto the archive icon
+    var archivePopup = document.getElementById("archivePopup");
+    archivePopup.style.display = "none";
+    // Update the display to hide archived cards
+    updateArchivedCardDisplay();
+
+    
+}
+
+
+
+// Function to allow drop on touch
+function allowDrop(event) {
+    // Prevent the default behavior
+    event.preventDefault();
+}
+
+// Function to handle touch drop event for archiving
+function dropTouch(event) {
+    // Prevent the default behavior
+    event.preventDefault();
+
+    // Get the data (the card's ID) from the target
+    var data = event.dataTransfer.getData('text/plain');
+    var draggedElement = document.getElementById(data);
+    var archivePopup = document.getElementById("archivePopup");
+
+    // If the dragged element is not a card, return
+    if (!draggedElement.classList.contains('card')) {
+        return;
+    }
+
+    // Get the title and body content from the dragged element
+    var cardTitle = draggedElement.querySelector('h3').textContent;
+    var cardBody = draggedElement.querySelector('p').textContent;
+
+    // Archive the card along with its content
+    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+    archivedCards.push({
+        id: draggedElement.id,
+        title: cardTitle,
+        body: cardBody
+    });
+    console.log("Archived Cards:", archivedCards); // Log archived cards
+    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+
+    // Remove the card from the dashboard
+    draggedElement.remove();
+
+    // Hide the archive popup after the drop
+    archivePopup.style.display = "none";
+}
+// Function to check if a card is archived
+function isArchived(cardId) {
+    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+    return archivedCards.some(function(card) {
+        return card.id === cardId;
+    });
+}
+
+// Function to update the display of archived cards in the dashboard
+function updateArchivedCardDisplay() {
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function(card) {
+        if (isArchived(card.id)) {
+            card.style.display = 'none'; // Hide archived cards
+        } else {
+            card.style.display = 'block'; // Show non-archived cards
+        }
+    });
+}
+
+// Call updateArchivedCardDisplay after adding or removing cards from the archive
+// For example:
+// After adding a card to the archive
+var cardId = "card1"; // Replace with the actual ID of the archived card
+if (isArchived(cardId)) {
+    updateArchivedCardDisplay();
+}
+
+// Sample data for the line chart
+var data = {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [{
+        label: "Sales",
+        data: [65, 59, 80, 81, 56, 55, 40],
+        fill: false,
+        borderColor: 'rgb(242, 227, 208)', // Light blue color for the line
+        backgroundColor: 'rgb(238, 216, 220)' // Light blue color for the area under the line
+      }]
+    };
+
+    // Configuration options for the chart
+    var options = {
+      responsive: true,
+      maintainAspectRatio: false, // Ensure the chart is responsive
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Create the line chart
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+    });
+</script>
+
+</body>
+</html>

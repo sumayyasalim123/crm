@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sidebar Example</title>
+<title>Navbar Over Image</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -11,512 +11,497 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% load static %}
 <style>
-/* Basic styling for the sidebar */
-.sidebar {
-  height: 100%;
-  width: 250px; /* Adjust the width as needed */
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgb(70, 70, 233);
-  padding-top: 20px;
-  transition: left 0.3s ease; /* Add transition for smoother animation */
-  border-radius: 50px;
-}
-
-/* Style for the links in the sidebar */
-.sidebar a {
-  padding: 10px;
-  text-decoration: none;
-  display: block;
-  color: white;
-}
-
-/* Style for the active link */
-.sidebar a.active {
-  background-color: #ddd;
-}
-
-/* Style for the content area */
-.content {
-  padding: 20px;
-  transition: margin-left 0.3s ease; /* Add transition for smoother animation */
-
-}
-
-/* Some example content */
-h1 {
-  margin-top: 0;
-}
-
-/* Styling for the navbar */
-.navbar {
-  width: 100%;
-  background-color: whitesmoke;
-  color: #fff;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Styling for the navigation items */
-.navbar .nav-items {
-  margin-right: auto; /* Push navigation items to the left */
-}
-
-/* Styling for the signup button */
-.signup-btn {
-  background-color: rgb(70, 70, 233);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Media query for responsiveness */
-@media screen and (max-width: 768px) {
   body {
-    overflow-x: hidden; /* Hide horizontal scrollbar */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
   }
-  .sidebar {
-    width: calc(100% - 30px); /* Set width for sidebar on smaller screens */
-    left: -100%; /* Initially hide the sidebar off-screen */
-  }
-  .content {
-    margin-left: 0; /* Reset margin for main content */
-  }
-  .sidebar.open {
-    left: 0; /* Move sidebar to show on screen */
-  }
-  .content.expand {
-    margin-left: 0; /* Keep main content to the right of sidebar */
-  }
-  .toggle-btn {
-    display: block;
-    position: fixed;
-    top: 20px;
-    right: 20px; /* Adjust position to the right */
-    background-color: white;
-    color: #333;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 9999; /* Ensure the button is above other content */
-    border: none;
-  }
-  .toggle-btn:focus {
-    outline: none; /* Remove outline on focus */
-  }
-  .toggle-icon {
-    width: 30px;
-    height: 3px;
-    background-color: #333;
-    margin: 6px 0;
-    transition: transform 0.3s ease; /* Add transition for smoother animation */
-  }
-  .toggle-icon.open {
-    transform: rotate(45deg); /* Rotate icon to form 'X' shape when sidebar is open */
+  .hero-section {
+    position: relative;
+    height: 700px; /* Adjust height as needed */
+    background-image: url("{% static 'images/bg13.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    color: white; /* Text color */
   }
   .navbar {
-    flex-direction: row-reverse; /* Align items in reverse order */
-  }
-  .signup-btn {
-    margin-right: 20px; /* Position signup button in the right corner */
-  }
-  .navbar .nav-items {
-    margin-left: 20px; /* Add left margin for spacing */
-  }
-}
-
-/* Additional styling for non-responsive layout */
-@media screen and (min-width: 769px) {
-  .sidebar {
-    left: 0; /* Show sidebar by default on non-responsive layout */
+    position: absolute;
+    top: 20px; /* Adjust distance from top */
+    left: 20px; /* Adjust distance from left */
+    z-index: 9999; /* Ensure navbar is on top */
   }
   .content {
-    margin-left: 250px;
-
-  
-     /* Keep main content to the right of sidebar */
+    padding: 20px;
   }
-  .toggle-btn {display: none;}
+  .animated-text-container {
+    position: absolute;
+    top: calc(20px + 60px); /* 20px (navbar top) + 60px (navbar height) */
+    left: 20px; /* Adjust distance from left */
+    color:purple;
+    margin-top: 350px;
+    margin-left: 350px;
+  }
+  .animated-text{
+    height: 200px;width: 700px;
+  }
+  @media screen and (max-width: 768px) {
+    .animated-text-container {
+    position: absolute;
+    top: calc(20px + 60px); /* 20px (navbar top) + 60px (navbar height) */
+    left: 20px; /* Adjust distance from left */
+    color:purple;
+    margin-top: 200px;
+    margin-left: 41px;
+    height: 200px;
+    width: 248px;
+    }
+    .animated-text {
+    height: 200px;
+    width: 246px;
 }
-.square-card {
-  display: flex;
-  justify-content: space-between; /* Ensure equal spacing between columns */
-  flex-wrap: wrap; /* Allow columns to wrap to the next line on smaller screens */
-}
-
+.h1, h1 {
+    font-size: 1.5rem;
+}}
 .card {
-  flex-basis: calc(33.33% - 20px); /* Adjust the width of cards */
-
-  margin-bottom: 20px; /* Add some space between cards */
-  padding: 20px; /* Increase padding for better spacing */
-  box-sizing: border-box;
+    margin-bottom: 20px;
+    border: none; /* Remove border from cards */
+    text-align: center;
 }
-
-.column {
-  flex-basis: calc(33.33% - 20px); /* Adjust the width of the column */
-  display: flex;
-  flex-direction: column; /* Arrange cards vertically */
-  justify-content: flex-start; /* Align cards at the start of the column */
+.card .card-body {
+    display: flex;
+    align-items: center;
 }
-
-@media screen and (max-width: 768px) {
-  .square-card {
-    margin-left: -38px;
-    flex-direction: column; /* Display cards vertically on smaller screens */
-    height: auto; /* Remove fixed height */
+.card .card-img {
+    width: 100px; /* Adjust image size as needed */
+    height: 100px;
+    margin-bottom: 10px;
+}
+/* Style for Testimonial Section */
+.container-background {
+    background-image: url('your-background-image.jpg'); /* Replace 'your-background-image.jpg' with the path to your background image */
+    background-size: cover;
+    background-position: center;
+    padding: 50px 0; /* Adjust padding as needed */
   }
 
+  /* Style for Testimonial Cards */
+  .testimonial {
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hidden */
+    animation: fadeIn 1s forwards; /* Fade-in animation */
+  }
+  .testimonial blockquote {
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .testimonial .attribution {
+    display: flex;
+    align-items: center;
+  }
+  .testimonial .attribution img {
+    border-radius: 50%;
+    width: 60px;
+    margin-right: 15px;
+  }
+  .testimonial .attribution .details {
+    font-size: 16px;
+  }
+
+  /* Keyframes for fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   .card {
-    flex-basis: calc(45% - 20px); /* Adjust width of cards */
-    margin-bottom: 10px; /* Reduce space between cards */
-    padding: 10px; /* Adjust padding for smaller screens */
-    box-sizing: border-box; /* Include padding in the total width */
+    margin-bottom: 20px;
+  }
+  canvas {
+    width: 100%;
+    height: auto;
   }
 
-  .main-content {
-    padding: 0 20px; /* Adjust padding to fit cards better on smaller screens */
+  .footer {
+    background-color: #f8f9fa;
+    padding: 30px 0;
+    color: #6c757d;
   }
-
-}
-
-h1:not(.no-bullet)::before, h2:not(.no-bullet)::before, h3:not(.no-bullet)::before, h4:not(.no-bullet)::before, h5:not(.no-bullet)::before, h6:not(.no-bullet)::before {
-  content: "\25A0"; /* Unicode character for square */
-  margin-right: 0.5em; /* Adjust the spacing between the bullet and the text */
-  color: rgb(70, 70, 233); /* Set the color of the bullet */
-}
-.sidebar {
-  z-index: 2; /* Ensure sidebar is above cards */
-  position: fixed; /* Keep sidebar fixed when scrolling */
-}
-
-.content {
-  z-index: 1; /* Ensure cards are below sidebar */
-  position: relative; /* Set relative positioning for stacking context */
-}
-
-#archivePopup {
-    display: none;
-}
-
-
+  .footer ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .footer ul li {
+    margin-bottom: 10px;
+  }
+  .footer ul li a {
+    color: #6c757d;
+    text-decoration: none;
+  }
+  .footer ul li a:hover {
+    color: #007bff;
+  }
+  .social-icons a {
+    margin-right: 10px;
+    color: #6c757d;
+    text-decoration: none;
+  }
+  .social-icons a:hover {
+    color: #007bff;
+  }
 </style>
-{% load static %}
 </head>
 <body>
 
-<div class="navbar">
-  <div class="nav-items">
+<div class="hero-section">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: transparent;">
+    <!-- Logo and User Dashboard Heading -->
+    <a class="navbar-brand" href="#">
+        <h1 style="color: purple;font-family: Brush Script MT;"><img src="{% static 'images/relationship.jpg' %}" alt="CRM Logo" style="height: 40px;width: 40px;">CRM</h1>
+    </a>
 
+    <!-- Button to toggle the navbar on small screens -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <!-- Other Navbar Items -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}" style="color: purple;font-family: Lucida Handwriting;">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: purple;font-family: Lucida Handwriting;" >Contacts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: purple;font-family: Lucida Handwriting;">Leads</a>
+            </li>
+            <li class="nav-item"> 
+                <a class="nav-link" href="#" style="color: purple;font-family: Lucida Handwriting;" >Tasks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: purple;font-family: Lucida Handwriting;" >Settings</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="animated-text-container" style="text-align: center;">
+  <h1 class="animated-text" >
+    <span class="title" style="font-family: Brush Script MT;">CRM</span><br>
+    <span class="subtitle" style="font-family: Brush Script MT;font-size: smaller;">Streamline Your Business Operations with Our CRM Solution</span><br>
+    <span class="para" style="font-family: Courier New;font-size: 13px;">Welcome to our CRM dashboard, designed to help you manage and nurture your customer relationships with ease. Our platform offers a comprehensive set of tools to streamline your sales, marketing, and customer service processes.</span><br>
+  </h1>
+</div>
   </div>
-  <button class="signup-btn" >Sign Up</button>
-  <button class="toggle-btn" onclick="toggleSidebar()">
-    <span class="toggle-icon"></span>
-    <span class="toggle-icon"></span>
-    <span class="toggle-icon"></span>
-  </button>
+  <center>
+  <div class="content">
+    <h1 style="font-family: Lucida Handwriting; color: purple;margin-top: 100px;margin-bottom: 100px;"><img src="{% static 'images/emoji.jpg'%}"> Key Features</h1>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <img src="{% static 'images/icon8.jpg' %}" class="card-img" alt="Customer Data Management"><br>
+                      
+                      <br>
+                      <h5 class="card-title" style="font-family:Lucida Handwriting;color: purple;">Customer Data Management</h5>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <img src="{% static 'images/icon11.jpg' %}"class="card-img" alt="Lead Management"><br>
+                      <div class="title-container">
+                        <h5 class="card-title" style="font-family: Lucida Handwriting;color: purple;">Lead Management</h5>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <img src="{% static 'images/icon10.jpg' %}" class="card-img" alt="Sales Automation"><br>
+                      <h5 class="card-title" style="font-family: Lucida Handwriting; color: purple;" >Sales Automation</h5>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <img src="{% static 'images/image9.jpg' %}" class="card-img" alt="Marketing Automation"><br>
+                      <h5 class="card-title" style="font-family: Lucida Handwriting;color: purple;" >Marketing Automation</h5>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <img src="{% static 'images/icon7.jpg' %}" class="card-img" alt="Customer Service and Support"><br>
+                      <h5 class="card-title" style="font-family: Lucida Handwriting; color: purple;">Customer Service and Support</h5>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <img src="{% static 'images/icon12.jpg' %}" class="card-img" alt="Analytics and Reporting"><br>
+                      <h5 class="card-title" style="font-family: Lucida Handwriting;color: purple;">Analytics and Reporting</h5>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </div>
+
+  <div class="container-fluid container-background">
+    <h1 style="font-family: Lucida Handwriting; color: purple;margin-top: 100px;margin-bottom: 100px;"><img src="{% static 'images/feedback.jpg'%}"> People's  experiences with us</h1>
+  <p><div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="testimonial" style="background-color: rgb(231, 204, 208);">
+          <blockquote>
+            <p>"Using CRMify has been a game-changer for our sales team. The intuitive interface and robust features have helped us close deals faster and provide better service to our clients."</p>
+          </blockquote>
+          <div class="attribution">
+            <img src="{% static 'images/pass1.jpg'%}" alt="Customer Avatar">
+            <div class="details">
+              <p><strong>Emily Johnson</strong></p>
+              <p>Sales Manager, XYZ Corporation</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial" style="background-color: rgb(235, 199, 235);">
+          <blockquote>
+            <p>"CRMify is an excellent tool for managing customer relationships. It's easy to use, and the customer support team is always helpful and responsive."</p>
+          </blockquote>
+          <div class="attribution">
+            <img src="{% static 'images/pass2.jpg'%}" alt="Customer Avatar">
+            <div class="details">
+              <p><strong>John Smith</strong></p>
+              <p>Marketing Director, ABC Industries</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial" style="background-color: rgb(205, 205, 244);">
+          <blockquote>
+            <p>"Our experience with CRMify has been fantastic. It has streamlined our communication and allowed us to better track our interactions with clients."</p>
+          </blockquote>
+          <div class="attribution">
+            <img src="{% static 'images/pass3.jpg'%}" alt="Customer Avatar">
+            <div class="details">
+              <p><strong>Sarah Lee</strong></p>
+              <p>CEO, Acme Solutions</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial" style="background-color: rgb(235, 217, 193);">
+          <blockquote>
+            <p>"We've tried several CRM platforms, and CRMify stands out for its user-friendly interface and powerful features. Highly recommended!"</p>
+          </blockquote>
+          <div class="attribution">
+            <img src="{% static 'images/pass5.jpg'%}" alt="Customer Avatar">
+            <div class="details">
+              <p><strong>Michael Brown</strong></p>
+              <p>Operations Manager, Bright Solutions</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
 </div>
 
-<div class="sidebar" id="sidebar"><a href="#" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
-    <img src="{% static 'images/relationship.jpg' %}"  alt="..." style="height: 80px;width: 80px;">CRM
-</a>
-
-
-  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Dashboard</a>
-  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Contacts</a>
-  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Accounts</a>
-  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Leads</a>
-  <a href="#" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Opportunities</a>
-  <a href="{% url 'archive' %}" style="font-weight: bolder;margin-left: 20px;margin-top: 30px;">Archives</a>
-</div>
-
-<div class="content" id="content">
-  <h1 class="no-bullet">Outbound Calls and Contracts</h1>
-
-  <div class="main-content">
-    <div class="square-card">
-      <!-- First column -->
+<div class="other-contents">
+  <h1 style="font-family: Lucida Handwriting; color: purple;margin-top: 100px;margin-bottom: 100px;"><img src="{% static 'images/graph.jpg'%}"> Our monthly perfomance </h1>
+  <p><!-- CTA Section -->
+    <div class="cta-section">
+      <div class="container">
+       
+       
+<div class="container">
+  <div class="row">
+    <!-- First Card -->
+    <div class="col-md-4">
       <div class="card">
-        <h2>Outbound calls</h2>
-        <p> 2,794</p>
-        <p style="color: red;"> 32%</p>
-        <canvas id="chart1"></canvas>
+        <h5 class="card-title">Sales Analytics</h5><br>
+        <div class="card-body">
+        
+          <canvas id="salesChart"></canvas>
+        </div>
       </div>
-      <!-- Second column -->
+    </div>
+    
+    <!-- Second Card -->
+    <div class="col-md-4">
       <div class="card">
-        <h2>Demos</h2>
-        <p> 52</p>
-        <p style="color: red;"> 43%</p>
-        <canvas id="chart2"></canvas>
+        <h5 class="card-title">Customer Growth</h5><br>
+        <div class="card-body">
+         
+          <canvas id="customerChart"></canvas>
+        </div>
       </div>
-      <!-- Third column -->
-      <div class="column">
-        <div class="card"> 
-          <h2>Contracts closed</h2>
-          <p><span style="display: inline;font-weight: bolder;font-size: 45px;">22 <span style="color: red;">(-29%)</span></span></p>
-
-
-        </div>
-        <div class="card"> 
-          <h2>Avg Contractvalue</h2>
-          <p><span style="display: inline;font-weight: bolder;font-size: 45px;">44,970 <span style="color: red;">(-4%)</span></span></p>
-        </div>
-        <div class="card"> 
-          <h2>Call/Contract Ratio</h2>
-          <p><span style="display: inline;font-weight: bolder;font-size: 45px;">127 <span style="color: red;">(-2%)</span></span></p>
+    </div>
+    
+    <!-- Third Card -->
+    <div class="col-md-4">
+      <div class="card">
+        <h5 class="card-title">Lead Conversion</h5><br>
+        <div class="card-body">
+         
+          <canvas id="leadChart"></canvas>
         </div>
       </div>
     </div>
   </div>
-  <div id="archivePopup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <i class="fas fa-archive" style="font-size: 48px;"></i>
+</div>
+      </div></p>
+      <div class="other-contents">
+        <h1 style="font-family: Lucida Handwriting; color: purple;margin-top: 100px;margin-bottom: 10px;"><img src="{% static 'images/signup.jpg'%}">Ready to get started?</h1>
+        <p><!-- CTA Section -->
+          <div class="cta-section">
+            <div class="container">
+             
+              <p style="color: purple ;">Sign up for a free trial, schedule a demo, or contact our sales team for more information.</p>
+              <a href="#signup" class="btn btn-primary">Sign Up for Free Trial</a>
+              <a href="#demo" class="btn btn-secondary">Schedule a Demo</a>
+              <a href="#contact" class="btn btn-info">Contact Sales</a>
+            </div></p>
+      </div>
+
+      <div class="other-contents">
+        
+        <p><!-- CTA Section -->
+          <div class="cta-section">
+            <div class="container">
+             
+             
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>About Us</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper ligula vitae ipsum rutrum, ac eleifend libero aliquam.</p>
+      </div>
+      <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#"><i class="fas fa-list"></i> Features</a></li>
+          <li><a href="#"><i class="fas fa-dollar-sign"></i> Pricing</a></li>
+          <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Contact Us</h5>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Main Street, City, Country</p>
+        <p><i class="fas fa-envelope"></i> Email: info@yourcompany.com</p>
+        <p><i class="fas fa-phone"></i> Phone: +1234567890</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+      </div>
+
 </div>
 
-<div id="card1" class="card" draggable="true" ondragstart="drag(event)" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)">Card 1</div>
-<div id="card2" class="card" draggable="true" ondragstart="drag(event)" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)">Card 2</div>
-<div id="card3" class="card" draggable="true" ondragstart="drag(event)" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)">Card 3</div>
-<div id="card4" class="card" draggable="true" ondragstart="drag(event)" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)">Card 4</div>
-<div id="card5" class="card" draggable="true" ondragstart="drag(event)" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)">Card 5</div>
-
-
-
-
-  
-</div>
- 
+</center>
 
 
 <script>
+  // Chart data
+  const salesData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Sales',
+      data: [65, 59, 80, 81, 56, 55],
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1
+    }]
+  };
 
+  const customerData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Customers',
+      data: [30, 45, 50, 55, 62, 70],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1
+    }]
+  };
 
-function toggleSidebar() {
-  var sidebar = document.getElementById("sidebar");
-  var content = document.getElementById("content");
-  sidebar.classList.toggle("open");
-  content.classList.toggle("expand");
-}
- // JavaScript to render pie charts
- document.addEventListener('DOMContentLoaded', function () {
-    var ctx1 = document.getElementById('chart1').getContext('2d');
-    var ctx2 = document.getElementById('chart2').getContext('2d');
+  const leadData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Leads',
+      data: [45, 67, 80, 70, 55, 62],
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  };
 
-    var data1 = {
-      datasets: [{
-        data: [32, 68], // Assuming 32% and 68%
-        backgroundColor: [
-          'rgba(0, 102, 204, 0.5)', // Light blue
-          'rgba(0, 51, 102, 0.5)'    // Dark blue
-        ],
-        borderColor: [
-          'rgba(0, 102, 204, 1)', // Light blue
-          'rgba(0, 51, 102, 1)'    // Dark blue
-        ],
-        borderWidth: 1
-      }]
-    };
-
-    var data2 = {
-      datasets: [{
-        data: [43, 57], // Assuming 43% and 57%
-        backgroundColor: [
-          'rgba(0, 102, 204, 0.5)', // Light blue
-          'rgba(0, 51, 102, 0.5)'    // Dark blue
-        ],
-        borderColor: [
-          'rgba(0, 102, 204, 1)', // Light blue
-          'rgba(0, 51, 102, 1)'    // Dark blue
-        ],
-        borderWidth: 1
-      }]
-    };
-
-    var options = {
-      // Add options if needed
-      legend: {
-        display: false // Hide the legend
-      }
-    };
-
-    new Chart(ctx1, {
-      type: 'pie',
-      data: data1,
-      options: options
-    });
-
-    new Chart(ctx2, {
-      type: 'pie',
-      data: data2,
-      options: options
-    });
-  });
- // Function to handle touch start event
- function handleTouchStart(event) {
-    // Prevent default touch behavior to avoid issues with touch events
-    event.preventDefault();
-
-    // Confirm that event.target refers to the touched element
-    console.log('Touched element:', event.target);
-
-    // Get the touch target
-    let touch = event.touches[0];
-
-    // Store initial touch coordinates and card position
-    console.log('Initial touch coordinates:', touch.clientX, touch.clientY);
-    console.log('Initial card position:', event.target.offsetLeft, event.target.offsetTop);
-
-    event.target.setAttribute('data-touchstart-x', touch.clientX);
-    event.target.setAttribute('data-touchstart-y', touch.clientY);
-    event.target.setAttribute('data-card-x', event.target.offsetLeft);
-    event.target.setAttribute('data-card-y', event.target.offsetTop);
-}
-
-
-/// Function to handle touch move event
-function handleTouchMove(event) {
-    // Prevent default touch behavior to avoid issues with touch events
-    event.preventDefault();
-    
-    // Get the touch target
-    let touch = event.touches[0];
-    
-    // Log touch coordinates for debugging
-    console.log("Touch coordinates:", touch.clientX, touch.clientY);
-    
-    // Calculate distance moved
-    let deltaX = touch.clientX - parseInt(event.target.getAttribute('data-touchstart-x'));
-    let deltaY = touch.clientY - parseInt(event.target.getAttribute('data-touchstart-y'));
-    
-    // Log calculated distances for debugging
-    console.log("Delta X:", deltaX, "Delta Y:", deltaY);
-    
-    // Calculate new card position
-    let newCardX = parseInt(event.target.getAttribute('data-card-x')) + deltaX;
-    let newCardY = parseInt(event.target.getAttribute('data-card-y')) + deltaY;
-    
-    // Apply translation to the card's position
-    event.target.style.transform = `translate(${newCardX}px, ${newCardY}px)`;
-}
-
-
-// Function to handle touch end event
-function handleTouchEnd(event) {
-    // Reset card position after touchend
-    event.target.style.transform = 'translate(0px, 0px)';
-
-    // Confirm if event.preventDefault() is preventing default touch behavior
-    console.log("Prevent Default:", event.defaultPrevented);
-
-    // Get the touch position relative to the viewport
-    var touchX = event.changedTouches[0].clientX;
-    var touchY = event.changedTouches[0].clientY;
-    console.log("Touch coordinates:", touchX, touchY);
-
-    // Check if the touch ended within the boundaries of the archiveDiv
-    var elementUnderTouch = document.elementFromPoint(touchX, touchY);
-    console.log("Element under touch:", elementUnderTouch);
-
-    // Add additional debugging or validation steps as needed
-}
-
-function dropTouch(event) {
-    // Prevent the default behavior
-    event.preventDefault();
-    console.log("Prevent Default:", event.defaultPrevented);
-    
-
-    // Get the data (the card's ID) from the transfer
-    var data = event.target.getAttribute("data-dragged-id");
-    var draggedElement = document.getElementById(data);
-    var archivePopup = document.getElementById("archivePopup");
-
-    // Check if the touch ended within the boundaries of the archivePopup
-    var touchX = event.changedTouches[0].clientX;
-    var touchY = event.changedTouches[0].clientY;
-    console.log("Touch coordinates:", touchX, touchY);
-
-    // Check if the logic for archiving the card and storing it in local storage is functioning correctly
-    var rect = archivePopup.getBoundingClientRect();
-    console.log("Archive popup bounding rect:", rect);
-
-    // Add additional debugging or validation steps as needed
-}
-
-// Function to handle mouse drag start event
-function drag(event) {
-    // Show the archive popup when a card is being dragged
-    var archivePopup = document.getElementById("archivePopup");
-    archivePopup.style.display = "block";
-
-    // Set the data to be transferred (the card's ID)
-    event.dataTransfer.setData("text", event.target.id);
-}
-
-// Function to handle mouse drag over event
-function allowDrop(event) {
-    // Allow dropping the card onto the archive popup
-    event.preventDefault();
-}
-
-// Function to handle mouse drop event
-function drop(event) {
-    // Prevent the default behavior
-    event.preventDefault();
-
-    // Get the data (the card's ID) from the transfer
-    var data = event.dataTransfer.getData("text");
-    var draggedElement = document.getElementById(data);
-    var archivePopup = document.getElementById("archivePopup");
-
-    // Hide the archive popup after the drop
-    archivePopup.style.display = "none";
-
-    // Store the archived card's information in local storage
-    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-    archivedCards.push({
-        id: draggedElement.id,
-        content: draggedElement.innerText
-    });
-    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
-
-    // Remove the card from the dashboard
-    draggedElement.remove();
-}
-
-// Attach drag and drop event listeners to the archive popup
-var archivePopup = document.getElementById("archivePopup");
-archivePopup.addEventListener("dragover", allowDrop);
-archivePopup.addEventListener("drop", drop);
-// Function to check if a card is archived
-function isArchived(cardId) {
-    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-    return archivedCards.some(function(card) {
-        return card.id === cardId;
-    });
-}
-
-// Function to update the display of archived cards in the dashboard
-function updateArchivedCardDisplay() {
-    var cards = document.querySelectorAll('.card');
-    cards.forEach(function(card) {
-        if (isArchived(card.id)) {
-            card.style.display = 'none'; // Hide archived cards
-        } else {
-            card.style.display = 'block'; // Show non-archived cards
+  // Chart options
+  const chartOptions = {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
         }
-    });
-}
+      }]
+    }
+  };
 
-// Call the function to update the display of archived cards initially
-updateArchivedCardDisplay();
+  // Initialize charts
+  const ctx1 = document.getElementById('salesChart').getContext('2d');
+  const ctx2 = document.getElementById('customerChart').getContext('2d');
+  const ctx3 = document.getElementById('leadChart').getContext('2d');
 
+  new Chart(ctx1, {
+    type: 'line',
+    data: salesData,
+    options: chartOptions
+  });
 
+  new Chart(ctx2, {
+    type: 'bar',
+    data: customerData,
+    options: chartOptions
+  });
+
+  new Chart(ctx3, {
+    type: 'bar',
+    data: leadData,
+    options: chartOptions
+  });
 </script>
 
 </body>
