@@ -15,15 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 /* Basic styling for the sidebar */
-@media screen and (max-width: 768px) {
-  body {
-    overflow-x: hidden; /* Hide horizontal scrollbar */
-  }
-
-  /* Other CSS rules for responsiveness */
-}
-
-
 .sidebar {
   height: 100%;
   width: 250px; /* Adjust the width as needed */
@@ -95,12 +86,8 @@ h1 {
    
     overflow-x: hidden; /* Hide horizontal scrollbar */
   }
-  .sidebar.open {
-    left: 0; /* Show the sidebar */
-}
-
   .sidebar {
-    width: calc(100% - 84px); /* Set width for sidebar on smaller screens */
+    width: calc(100% - 30px); /* Set width for sidebar on smaller screens */
     left: -100%; /* Initially hide the sidebar off-screen */
   }
   .content {
@@ -112,16 +99,36 @@ h1 {
   .content.expand {
     margin-left: 0; /* Keep main content to the right of sidebar */
   }
-  .toggle-icon {
-    font-size: 24px; /* Adjust icon size as needed */
+  .toggle-btn {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Adjust position to the right */
+    background-color: white;
+    color: #333;
+    padding: 10px;
     cursor: pointer;
+    z-index: 9999; /* Ensure the button is above other content */
+    border: none;
+  }
+  .toggle-btn:focus {
+    outline: none; /* Remove outline on focus */
+  }
+  .toggle-icon {
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: transform 0.3s ease; /* Add transition for smoother animation */
+  }
+  .toggle-icon.open {
+    transform: rotate(45deg); /* Rotate icon to form 'X' shape when sidebar is open */
   }
   .navbar {
     flex-direction: row-reverse; /* Align items in reverse order */
   }
   .signup-btn {
-    margin-right: 20px; 
-    margin-left: -16px;/* Position signup button in the right corner */
+    margin-right: 20px; /* Position signup button in the right corner */
   }
   .navbar .nav-items {
     margin-left: 20px; /* Add left margin for spacing */
@@ -166,9 +173,7 @@ h1 {
 
 @media screen and (max-width: 768px) {
   .square-card {
-    margin-left: -21px;
-
-   
+    margin-left: -38px;
     flex-direction: column; /* Display cards vertically on smaller screens */
     height: auto; /* Remove fixed height */
   }
@@ -213,9 +218,7 @@ h1 {
 }
 
 /* Additional CSS changes for other screen sizes if needed */
-.popup{display: none;
-size: 200px;
-}
+.popup{display: none;}
 /* Define a CSS class to hide archived cards */
 .archived-card {
     display: none;
@@ -243,18 +246,7 @@ size: 200px;
 @media screen and (max-width: 768px) {
   .card-container .card {
     flex: 0 0 100%; /* One card per row on smaller screens */
-    margin-bottom: 20px;
-    margin-top: 20px;
-    width: 20px;
-
-     /* Add some spacing between cards */
-}
-.card-container{
-  display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 207px;
-    position: relative;
+    margin-bottom: 20px; /* Add some spacing between cards */
 }
 
 .card-container .card h3 {
@@ -274,12 +266,6 @@ size: 200px;
         width: 300px;
         height: 400px;
         margin-left: 0%;
-    }
-    .toggle-icon {
-        color: pink;
-        margin-left: 314px;
-        font-size: 38px;
-        cursor: pointer;
     }
 }
 .container-first {
@@ -324,8 +310,12 @@ size: 200px;
   <div class="nav-items">
 
   </div>
-  
-  <span class="toggle-icon fas fa-bars" onclick="toggleSidebar()"></span>
+  <button class="signup-btn" >Sign Up</button>
+  <button class="toggle-btn" onclick="toggleSidebar()">
+    <span class="toggle-icon"></span>
+    <span class="toggle-icon"></span>
+    <span class="toggle-icon"></span>
+  </button>
 </div>
 
 <div class="sidebar" id="sidebar"><a href="{% url 'index' %}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
@@ -342,7 +332,7 @@ size: 200px;
 </div>
 <center>
 <div class="content" id="content">
-  <h1 style="font-family: Lucida Handwriting;margin-top: 100px;color: purple;margin-left: -14px;">Over View</h1>
+  <h1 style="font-family: Lucida Handwriting;margin-top: 100px;color: purple;">Over View</h1>
   <div class=" first-container" >
     <div class="card-" style="  background-color: rgb(238, 216, 220);margin-top: 100px;margin-bottom: 100px;">
      
@@ -350,8 +340,8 @@ size: 200px;
         <h3>Total Contacts</h3>
         <p>1000</p>
     </div>
-    <div class="card-" style="  background-color: rgb(236, 208, 236);margin-bottom: 100px;">
-        <i class="fas fa-building" style="font-size: 55px;" ></i>
+    <div class="card-" style="  background-color: rgb(236, 208, 236);">
+        <i class="fas fa-building" ></i>
         <h6>Total Accounts</h6>
         <p>500</p>
     </div>
@@ -360,37 +350,42 @@ size: 200px;
         <h3>Total Leads</h3>
         <p>300</p>
     </div>
-    <div class="card-" style="background-color: rgb(215, 207, 204);margin-top: 100px;margin-bottom: 100px;">
-        <i class="fas fa-chart-line" style="font-size: 35px;"></i>
+    <div class="card-" style="background-color: rgb(215, 207, 204);">
+        <i class="fas fa-chart-line" style="font-size: 40px;"></i>
         <h6>Total Opportunities</h6>
         <p>150</p>
     </div>
 </div>
 
 <h1 style="font-family:Lucida Handwriting ;margin-top: 100PX;margin-bottom: 100PX;color: purple;">Outbound Calls </h1>
-
-<div  id="archivePopup" class="popup" ondrop="dropTouch(event)" ondragover="allowDrop(event)">
+<div id="archivePopup" class="popup" ondrop="dropTouch(event)" ondragover="allowDrop(event)">
   <i class="fas fa-archive" style="font-size: 48px;"></i>
 </div>
-
 <div class="card-container">
 <div id="card1" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Stephen Jeorge</h3>
-<p> <i class="fas fa-phone"></i>  44 (-4%) </p></div>
+<p> <i class="fas fa-phone"></i>  <span style="display: inline;">44 <span style="color: red;">(-4%)</span></span> </p></div>
 <div id="card2" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Alexander</h3>
-<p> <i class="fas fa-phone"></i>  32 (-5%) </p></div>
+<p> <i class="fas fa-phone"></i>  <span style="display: inline;">32 <span style="color: red;">(-5%)</span></span> </p></div>
 <div id="card3" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Jhony</h3>
-<p><i class="fas fa-phone"></i> 23 (-6%)</p></div>
+<p><i class="fas fa-phone"></i>  <span style="display: inline;">23 <span style="color: red;">(-6%)</span></span></p></div>
 <div id="card4" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Ann Mary</h3>
-<p><i class="fas fa-phone"></i>  55 (-8%)</p></div>
+<p><i class="fas fa-phone"></i>  <span style="display: inline;">55 <span style="color: red;">(-8%)</span></span></p></div>
 <div id="card5" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>George</h3>
-<p><i class="fas fa-phone"></i>  67(-2%)</p></div>
+<p><i class="fas fa-phone"></i>  <span style="display: inline;">67 <span style="color: red;">(-2%)</span></span></p></div>
 <div id="card6" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Siya</h3>
-  <p><i class="fas fa-phone"></i> 33 (-3%)</p></div>
+  <p><i class="fas fa-phone"></i>  <span style="display: inline;">33 <span style="color: red;">(-3%)</span></span></p></div>
   <div id="card7" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Emma Keylin</h3>
-    <p><i class="fas fa-phone"></i>  12 (-3%)</p></div>
+    <p><i class="fas fa-phone"></i>  <span style="display: inline;">12 <span style="color: red;">(-3%)</span></span></p></div>
     <div id="card8" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Abhinand Anand</h3>
-      <p><i class="fas fa-phone"></i>  73(-5%)</p></div>
-     
+      <p><i class="fas fa-phone"></i>  <span style="display: inline;">73 <span style="color: red;">(-5%)</span></span></p></div>
+      <div id="card9" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Roslin George</h3>
+        <p><i class="fas fa-phone"></i>  <span style="display: inline;">45 <span style="color: red;">(-7%)</span></span></p></div>
+        <div id="card10" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Salman Khan</h3>
+          <p><i class="fas fa-phone"></i>  <span style="display: inline;">23 <span style="color: red;">(-9%)</span></span></p></div>
+          <div id="card11" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Sharukh Khan</h3>
+            <p><i class="fas fa-phone"></i>  <span style="display: inline;">56 <span style="color: red;">(-1%)</span></span></p></div>
+            <div id="card12" class="card" draggable="true" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" ontouchend="handleTouchEnd(event)" ondragstart="handleDragStart(event)"><h3>Amidabh Bachan</h3>
+              <p><i class="fas fa-phone"></i>  <span style="display: inline;">39 <span style="color: red;">(-5%)</span></span></p></div>
 </div>
   <h1 class="no-bullet" style="margin-top: 100px;font-family:Lucida Handwriting;margin-top: 100PX;margin-bottom: 100px;color: purple;">Outbound Calls and Contracts</h1>
 
@@ -445,15 +440,10 @@ size: 200px;
 
 
 function toggleSidebar() {
-    var icon = document.querySelector('.toggle-icon');
-    icon.classList.toggle('fa-bars');
-    icon.classList.toggle('fa-times');
-    // Add your toggle logic here
-  }
-
-  function toggleSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('open');
+  var sidebar = document.getElementById("sidebar");
+  var content = document.getElementById("content");
+  sidebar.classList.toggle("open");
+  content.classList.toggle("expand");
 }
  // JavaScript to render pie charts
  document.addEventListener('DOMContentLoaded', function () {
@@ -509,9 +499,169 @@ function toggleSidebar() {
       options: options
     });
   });
- 
+ // Function to handle drag start event
+function handleDragStart(event) {
+    // Show the archive icon when dragging starts
+    var archivePopup = document.getElementById("archivePopup");
+    archivePopup.style.display = "block";
+
+    event.dataTransfer.setData('text/plain', event.target.id);
+}
+
+// Function to handle touch start event
+function handleTouchStart(event) {
+    // Prevent default touch behavior to avoid issues with touch events
+    event.preventDefault();
+
+    // Show the archive icon when touch starts
+    var archivePopup = document.getElementById("archivePopup");
+    archivePopup.style.display = "block";
+
+    // Get the touch target
+    let touch = event.touches[0];
+
+    // Store initial touch coordinates and card position
+    event.target.setAttribute('data-touchstart-x', touch.clientX);
+    event.target.setAttribute('data-touchstart-y', touch.clientY);
+    event.target.setAttribute('data-card-x', event.target.offsetLeft);
+    event.target.setAttribute('data-card-y', event.target.offsetTop);
+}
+
+// Function to handle touch move event
+function handleTouchMove(event) {
+    // Prevent default touch behavior to avoid issues with touch events
+    event.preventDefault();
+    
+    // Get the touch target
+    let touch = event.touches[0];
+    
+    // Calculate distance moved
+    let deltaX = touch.clientX - parseInt(event.target.getAttribute('data-touchstart-x'));
+    let deltaY = touch.clientY - parseInt(event.target.getAttribute('data-touchstart-y'));
+    
+    // Calculate new card position
+    let newCardX = parseInt(event.target.getAttribute('data-card-x')) + deltaX;
+    let newCardY = parseInt(event.target.getAttribute('data-card-y')) + deltaY;
+    
+    // Apply translation to the card's position
+    event.target.style.transform = translate(${newCardX}px, ${newCardY}px);
+}
+// Function to handle touch end event
+function handleTouchEnd(event) {
+    // Reset card position after touchend
+    event.target.style.transform = 'translate(0px, 0px)';
+
+    // Check if the touched element has an ID attribute
+    var data = event.target.id;
+    if (!data) {
+        console.error("Element being touched does not have an ID attribute.");
+        return;
+    }
+
+    // Check if the touch ended within the boundaries of the archivePopup
+    var touchX = event.changedTouches[0].clientX;
+    var touchY = event.changedTouches[0].clientY;
+
+    var archivePopup = document.getElementById("archivePopup");
+
+    var rect = archivePopup.getBoundingClientRect();
+    if (touchX >= rect.left && touchX <= rect.right && touchY >= rect.top && touchY <= rect.bottom) {
+        // If touch ended within the archivePopup, archive the card
+
+        var draggedElement = document.getElementById(data);
+        var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+        archivedCards.push({
+            id: draggedElement.id,
+            title: draggedElement.querySelector('h3').textContent,
+            body: draggedElement.querySelector('p').textContent
+        });
+        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+        draggedElement.classList.add('archivedCard');
+
+        // Hide the card's contents
+        draggedElement.querySelector('h3').textContent = '';
+        draggedElement.querySelector('p').textContent = '';
+        // Remove the card from the dashboard
+        draggedElement.remove();
+    }
+
+    // Hide the archive icon after the touch ends only if the card was not dropped onto the archive icon
+    var archivePopup = document.getElementById("archivePopup");
+    archivePopup.style.display = "none";
+    // Update the display to hide archived cards
+    updateArchivedCardDisplay();
+}
 
 
+
+// Function to allow drop on touch
+function allowDrop(event) {
+    // Prevent the default behavior
+    event.preventDefault();
+}
+
+// Function to handle touch drop event for archiving
+function dropTouch(event) {
+    // Prevent the default behavior
+    event.preventDefault();
+
+    // Get the data (the card's ID) from the target
+    var data = event.dataTransfer.getData('text/plain');
+    var draggedElement = document.getElementById(data);
+    var archivePopup = document.getElementById("archivePopup");
+
+    // If the dragged element is not a card, return
+    if (!draggedElement.classList.contains('card')) {
+        return;
+    }
+
+    // Get the title and body content from the dragged element
+    var cardTitle = draggedElement.querySelector('h3').textContent;
+    var cardBody = draggedElement.querySelector('p').textContent;
+
+    // Archive the card along with its content
+    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+    archivedCards.push({
+        id: draggedElement.id,
+        title: cardTitle,
+        body: cardBody
+    });
+    console.log("Archived Cards:", archivedCards); // Log archived cards
+    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+
+    // Remove the card from the dashboard
+    draggedElement.remove();
+
+    // Hide the archive popup after the drop
+    archivePopup.style.display = "none";
+}
+// Function to check if a card is archived
+function isArchived(cardId) {
+    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+    return archivedCards.some(function(card) {
+        return card.id === cardId;
+    });
+}
+
+// Function to update the display of archived cards in the dashboard
+function updateArchivedCardDisplay() {
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function(card) {
+        if (isArchived(card.id)) {
+            card.style.display = 'none'; // Hide archived cards
+        } else {
+            card.style.display = 'block'; // Show non-archived cards
+        }
+    });
+}
+
+// Call updateArchivedCardDisplay after adding or removing cards from the archive
+// For example:
+// After adding a card to the archive
+var cardId = "card1"; // Replace with the actual ID of the archived card
+if (isArchived(cardId)) {
+    updateArchivedCardDisplay();
+}
 
 // Sample data for the line chart
 var data = {
@@ -547,128 +697,6 @@ var data = {
       data: data,
       options: options
     });
-
-
-
-// Function to handle drag start event
-function handleDragStart(event) {
-    // Show the archive icon when dragging starts
-    var archivePopup = document.getElementById("archivePopup");
-    archivePopup.style.display = "block";
-
-    event.dataTransfer.setData('text/plain', event.target.id);
-}
-
-// Function to handle touch end event
-function handleTouchEnd(event) {
-    // Reset card position after touchend
-    event.target.style.transform = 'translate(0px, 0px)';
-
-    // Check if the touch ended within the boundaries of the archivePopup
-    var touchX = event.changedTouches[0].clientX;
-    var touchY = event.changedTouches[0].clientY;
-
-    var archivePopup = document.getElementById("archivePopup");
-
-    var rect = archivePopup.getBoundingClientRect();
-    if (touchX >= rect.left && touchX <= rect.right && touchY >= rect.top && touchY <= rect.bottom) {
-        // If touch ended within the archivePopup, archive the card
-        archiveCard(event.target);
-    }
-    
-    // Hide the archive icon after the touch ends
-    archivePopup.style.display = "none";
-}
-
-// Function to update the display of archived cards in the dashboard
-function updateArchivedCardDisplay() {
-    var cards = document.querySelectorAll('.card');
-    var isResponsive = window.innerWidth <= 768; // Adjust threshold as needed
-
-    cards.forEach(function(card) {
-        // Check if the card is archived in the internal storage
-        if (isCardArchivedInStorage(card.id)) {
-            card.style.display = 'none'; // Hide archived cards
-        } else {
-            card.style.display = 'block'; // Show non-archived cards
-        }
-    });
-}
-
-function isCardArchivedInStorage(cardId) {
-    // Retrieve the list of archived cards from local storage
-    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-    
-    // Check if the card with the given ID is in the list of archived cards
-    return archivedCards.some(function(card) {
-        return card.id === cardId;
-    });
-}
-
-// Function to allow drop on touch
-function allowDrop(event) {
-    // Prevent the default behavior
-    event.preventDefault();
-}
-
-// Function to handle touch drop event for archiving
-function dropTouch(event) {
-    // Prevent the default behavior
-    event.preventDefault();
-
-    // Get the data (the card's ID) from the target
-    var data = event.dataTransfer.getData('text/plain');
-    var draggedElement = document.getElementById(data);
-    var archivePopup = document.getElementById("archivePopup");
-
-    // If the dragged element is not a card, return
-    if (!draggedElement.classList.contains('card')) {
-        return;
-    }
-
-    // Archive the card
-    archiveCard(draggedElement);
-
-    // Hide the archive popup after the drop
-    archivePopup.style.display = "none";
-
-    // Update the display of archived cards on the dashboard
-    updateArchivedCardDisplay();
-}
-
-// Function to archive the card
-function archiveCard(cardElement) {
-    // Get the title and body content from the dragged element
-    var cardTitle = cardElement.querySelector('h3').textContent;
-    var cardBody = cardElement.querySelector('p').textContent;
-
-    // Archive the card along with its content
-    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-    
-    // Check if the card is already archived to avoid duplicate entries
-    if (!archivedCards.some(card => card.id === cardElement.id)) {
-        archivedCards.push({
-            id: cardElement.id,
-            title: cardTitle,
-            body: cardBody
-        });
-        
-        // Update the archived cards in local storage
-        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
-        
-        // Remove the card from the dashboard
-        cardElement.remove();
-    }
-}
-
-// Call the function to update the display of archived cards when the page loads
-window.addEventListener('load', updateArchivedCardDisplay);
-
-
-
-
-
-
 </script>
 
 </body>

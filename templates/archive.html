@@ -131,6 +131,10 @@ h1 {
   body {
     overflow-x: hidden; /* Hide horizontal scrollbar */
   }
+  .card-container {
+        width: 258px;
+        margin-left: -13px;
+    }
   .sidebar {
     width: calc(100% - 30px); /* Set width for sidebar on smaller screens */
     left: -100%; /* Initially hide the sidebar off-screen */
@@ -160,12 +164,11 @@ h1 {
     outline: none; /* Remove outline on focus */
   }
   .toggle-icon {
-    width: 30px;
-    height: 3px;
-    background-color: #333;
-    margin: 6px 0;
-    transition: transform 0.3s ease; /* Add transition for smoother animation */
-  }
+        color: pink;
+        margin-left: 314px;
+        font-size: 38px;
+        cursor: pointer;
+    }
   .toggle-icon.open {
     transform: rotate(45deg); /* Rotate icon to form 'X' shape when sidebar is open */
   }
@@ -216,12 +219,8 @@ h1 {
   <div class="nav-items">
 
   </div>
-  <button class="signup-btn" >Sign Up</button>
-  <button class="toggle-btn" onclick="toggleSidebar()">
-    <span class="toggle-icon"></span>
-    <span class="toggle-icon"></span>
-    <span class="toggle-icon"></span>
-  </button>
+  
+  <span class="toggle-icon fas fa-bars" onclick="toggleSidebar()"></span>
 </div>
 
 <div class="sidebar" id="sidebar"><a href="{%  url 'index' %}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; margin-top: 30px; font-size: 55px; font-style: inherit; margin-left: 20px;">
@@ -252,6 +251,11 @@ h1 {
     var content = document.getElementById("content");
     sidebar.classList.toggle("open");
     content.classList.toggle("expand");
+}
+
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
 }
 // Retrieve archived cards from local storage
 var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
