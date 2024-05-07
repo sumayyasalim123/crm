@@ -669,6 +669,22 @@ window.addEventListener('load', updateArchivedCardDisplay);
 
 
 
+// Function to handle touch start event
+function handleTouchStart(event) {
+    var touchedElement = event.target;
+
+    // Check if the touch starts on a card
+    if (touchedElement.classList.contains('card')) {
+        // Store the initial touch coordinates
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+
+        // Show the archive icon when touch starts
+        var archivePopup = document.getElementById("archivePopup");
+        archivePopup.style.display = "block";
+    }
+}
+
 </script>
 
 </body>
