@@ -685,6 +685,31 @@ function handleTouchStart(event) {
     }
 }
 
+// Function to handle touch move event
+function handleTouchMove(event) {
+    event.preventDefault();
+
+    // Loop through all active touches
+    for (var i = 0; i < event.changedTouches.length; i++) {
+        var touchedElement = event.changedTouches[i].target;
+
+        // Check if the touch is on a card
+        if (touchedElement.classList.contains('card')) {
+            // Get the current touch coordinates
+            var touchCurrentX = event.changedTouches[i].clientX;
+            var touchCurrentY = event.changedTouches[i].clientY;
+
+            // Calculate the distance moved since touch start
+            var deltaX = touchCurrentX - touchStartX;
+            var deltaY = touchCurrentY - touchStartY;
+
+            // Update the card position based on the cumulative movement
+            touchedElement.style.transform = 'translate(' + deltaX + 'px, ' + deltaY + 'px)';
+        }
+    }
+}
+
+
 </script>
 
 </body>
