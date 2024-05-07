@@ -636,7 +636,33 @@ function dropTouch(event) {
     updateArchivedCardDisplay();
 }
 
+// Function to archive the card
+function archiveCard(cardElement) {
+    // Get the title and body content from the dragged element
+    var cardTitle = cardElement.querySelector('h3').textContent;
+    var cardBody = cardElement.querySelector('p').textContent;
 
+    // Archive the card along with its content
+    var archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+    
+    // Check if the card is already archived to avoid duplicate entries
+    if (!archivedCards.some(card => card.id === cardElement.id)) {
+        archivedCards.push({
+            id: cardElement.id,
+            title: cardTitle,
+            body: cardBody
+        });
+        
+        // Update the archived cards in local storage
+        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+        
+        // Remove the card from the dashboard
+        cardElement.remove();
+    }
+}
+
+// Call the function to update the display of archived cards when the page loads
+window.addEventListener('load', updateArchivedCardDisplay);
 
 
 
