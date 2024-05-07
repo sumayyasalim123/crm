@@ -740,6 +740,13 @@ function handleTouchEnd(event) {
     touchedElement.style.transform = 'translate(0, 0)';
 }
 
+// Call the function to update the display of archived cards when the page loads
+window.addEventListener('load', updateArchivedCardDisplay);
+
+// Event listeners for touch events attached to the document
+document.addEventListener('touchstart', handleTouchStart);
+document.addEventListener('touchmove', handleTouchMove);
+document.addEventListener('touchend', handleTouchEnd);
 
 </script>
 
