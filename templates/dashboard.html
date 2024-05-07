@@ -710,6 +710,30 @@ function handleTouchMove(event) {
 }
 
 
+// Function to handle touch end event
+function handleTouchEnd(event) {
+    var touchedElement = event.changedTouches[0].target;
+    var archivePopup = document.getElementById("archivePopup");
+    var rect = archivePopup.getBoundingClientRect();
+    var boundary = 100; // Define boundary size
+
+    // Check if the touch ends near the archive icon within the boundary
+    if (
+        event.changedTouches[0].clientX >= rect.left - boundary &&
+        event.changedTouches[0].clientX <= rect.right + boundary &&
+        event.changedTouches[0].clientY >= rect.top - boundary &&
+        event.changedTouches[0].clientY <= rect.bottom + boundary
+    ) {
+        // If touch ended near the archivePopup, archive the card
+        archiveCard(touchedElement);
+    }
+
+    // Hide the archive icon after the touch ends
+    archivePopup.style.display = "none";
+
+}
+
+
 </script>
 
 </body>
